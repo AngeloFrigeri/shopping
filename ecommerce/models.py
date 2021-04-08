@@ -33,8 +33,20 @@ class Product(models.Model):
 
 
 class Sell(models.Model):
+    STATUS_CHOICES = [
+        ("cart", "cart"),
+        ("sold", "sold"),
+    ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date = models.DateField(default=datetime_now, verbose_name="Data")
+    status = models.CharField(max_length=4, choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0], unique=False,
+                              verbose_name="Status")
+
+    def get_total_price(self):
+        price = 0
+        for product_exit in ProductExit.objects.filter(sell=self.id):
+            price += product_exit.product.price * product_exit.quantity
+        return price
 
     class Meta:
         verbose_name = "Venda"

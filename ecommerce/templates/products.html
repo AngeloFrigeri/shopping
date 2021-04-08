@@ -1,0 +1,54 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrastyle %}
+<style>
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.product-image {
+  padding: 15px;
+  min-width: 200px;
+}
+
+.product-info {
+  padding: 15px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+{% for product in products %}
+<div class="flex-container">
+  <div class="product-image">
+    <img src="{{product.image.url}}"  height="100px" >
+  </div>
+  <div class="product-info">
+    <p><h2>Nome: {{product.name}}</h2></p>
+    <p><h3>Marca: {{product.brand.name}}</h3></p>
+    <p><h4>Preço Unitário: R$ {{product.price}}</h4></p>
+    <p>Quantidade: <input type="number" id="{{product.id}}"> </p>
+  </div>
+</div>
+{% endfor %}
+<br>
+<div class="flex-container">
+  <button >Atualizar Carrinho</button>
+</div>
+<br>
+<div class="flex-container">
+  Valor do frete: {{shippingCost}}
+</div>
+<br>
+<div class="flex-container">
+  Valor Total: {{total_price}}
+</div>
+<br>
+<div class="flex-container">
+  Valor Total com Frete: {{total_price_shipping}}
+</div>
+
+{% endblock %}

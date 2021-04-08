@@ -1,7 +1,11 @@
 import uuid
 
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.utils.timezone import now as datetime_now
+
+fs = FileSystemStorage(location=settings.MEDIA_ROOT)
 
 
 class Brand(models.Model):
@@ -22,7 +26,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name="Descrição")
     price = models.FloatField(verbose_name="Preço")
     brand = models.ForeignKey(to=Brand, on_delete=models.CASCADE, verbose_name="Marca")
-    image = models.ImageField(verbose_name="Imagem")
+    image = models.ImageField(verbose_name="Imagem", storage=fs)
 
     class Meta:
         verbose_name = "Produto"
